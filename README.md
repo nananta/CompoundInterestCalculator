@@ -1,4 +1,4 @@
-# Compound Interest Calculator
+# CompoundInterestCalculator
 
 A visually compelling HTML5 web app that demonstrates the power of compound interest when investing. This interactive calculator allows users to see how their investments can grow over time with compound interest.
 
