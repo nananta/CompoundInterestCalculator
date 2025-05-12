@@ -2,9 +2,61 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get references to DOM elements
     const calculatorForm = document.getElementById('calculator-form');
     const resultsChart = document.getElementById('results-chart');
+    const themeSwitch = document.getElementById('theme-switch');
+    
+    // Theme handling
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Check for saved theme preference or use the system preference
+    const savedTheme = localStorage.getItem('theme');
+    let isDarkMode;
+    
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        isDarkMode = savedTheme === 'dark';
+        themeSwitch.checked = isDarkMode;
+    } else {
+        isDarkMode = prefersDarkScheme.matches;
+        document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+        themeSwitch.checked = isDarkMode;
+    }
+    
+    // Theme toggle event listener
+    themeSwitch.addEventListener('change', function(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }
+        calculateCompoundInterest(); // Update chart with new theme
+    });
+    
+    // System theme change event listener
+    prefersDarkScheme.addEventListener('change', function(e) {
+        if (!localStorage.getItem('theme')) {
+            isDarkMode = e.matches;
+            themeSwitch.checked = isDarkMode;
+            calculateCompoundInterest();
+        }
+    });
     
     // Get all input elements
-    const inputElements = calculatorForm.querySelectorAll('input, select');
+    const inputElements = calculatorForm.querySelectorAll('input:not(#theme-switch), select');
+    
+    // Set chart colors based on theme
+    const getChartColors = () => {
+        const isDark = themeSwitch.checked;
+        return {
+            backgroundColor: isDark ? 'rgba(46, 204, 113, 0.1)' : 'rgba(46, 204, 113, 0.2)',
+            borderColor: 'rgba(46, 204, 113, 1)',
+            gridColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+            fontColor: isDark ? '#e0e0e0' : '#666'
+        };
+    };
+    
+    const chartColors = getChartColors();
     
     // Initialize the chart with empty data
     let chart = new Chart(resultsChart, {
@@ -15,8 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 {
                     label: 'Total Balance',
                     data: [],
-                    backgroundColor: 'rgba(46, 204, 113, 0.2)',
-                    borderColor: 'rgba(46, 204, 113, 1)',
+                    backgroundColor: chartColors.backgroundColor,
+                    borderColor: chartColors.borderColor,
                     borderWidth: 2,
                     fill: true
                 }
@@ -29,15 +81,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 x: {
                     title: {
                         display: true,
-                        text: 'Time Period'
+                        text: 'Time Period',
+                        color: chartColors.fontColor
+                    },
+                    grid: {
+                        color: chartColors.gridColor
+                    },
+                    ticks: {
+                        color: chartColors.fontColor
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Amount ($)'
+                        text: 'Amount ($)',
+                        color: chartColors.fontColor
+                    },
+                    grid: {
+                        color: chartColors.gridColor
                     },
                     ticks: {
+                        color: chartColors.fontColor,
                         callback: function(value) {
                             return '$' + value.toLocaleString();
                         }
@@ -59,6 +123,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             return label;
                         }
                     }
+                },
+                legend: {
+                    labels: {
+                        color: chartColors.fontColor
+                    }
                 }
             }
         }
@@ -78,6 +147,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to calculate compound interest and update the chart
     function calculateCompoundInterest() {
+        // Update theme colors for chart
+        const chartColors = getChartColors();
+        
+        // Update chart theme
+        chart.data.datasets[0].backgroundColor = chartColors.backgroundColor;
+        chart.options.scales.x.grid.color = chartColors.gridColor;
+        chart.options.scales.y.grid.color = chartColors.gridColor;
+        chart.options.scales.x.ticks.color = chartColors.fontColor;
+        chart.options.scales.y.ticks.color = chartColors.fontColor;
+        chart.options.scales.x.title.color = chartColors.fontColor;
+        chart.options.scales.y.title.color = chartColors.fontColor;
+        chart.options.plugins.legend.labels.color = chartColors.fontColor;
+        
         // Get input values
         const initialInvestment = parseFloat(document.getElementById('initial-investment').value);
         const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100;

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>Compound Interest Calculator</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -10,8 +11,21 @@
 <body>
     <div class="container">
         <header>
-            <h1>Compound Interest Calculator</h1>
-            <p>See how your investments can grow over time with the power of compound interest</p>
+            <div class="header-content">
+                <div>
+                    <h1>Compound Interest Calculator</h1>
+                    <p>See how your investments can grow over time with the power of compound interest</p>
+                </div>
+                <div class="theme-toggle-container">
+                    <label class="theme-toggle" for="theme-switch">
+                        <input type="checkbox" id="theme-switch">
+                        <span class="toggle-track">
+                            <span class="toggle-icon toggle-icon-light">☀️</span>
+                            <span class="toggle-icon toggle-icon-dark">🌙</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
         </header>
         
         <div class="calculator-container">

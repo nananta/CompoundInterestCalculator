@@ -1,4 +1,78 @@
 /* Global Styles */
+:root {
+    --bg-color: #f5f7fa;
+    --text-color: #333;
+    --header-color: #2c3e50;
+    --subtext-color: #7f8c8d;
+    --card-bg: #fff;
+    --input-border: #ddd;
+    --button-bg: #3498db;
+    --button-hover: #2980b9;
+    --box-shadow: rgba(0, 0, 0, 0.1);
+    --summary-bg: #f8f9fa;
+    --final-balance: #27ae60;
+    --total-interest: #3498db;
+    --toggle-bg: #dddddd;
+    --toggle-border: #bbbbbb;
+    --toggle-active: #3498db;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --header-color: #e0e0e0;
+        --subtext-color: #b0b0b0;
+        --card-bg: #2d2d2d;
+        --input-border: #444;
+        --button-bg: #2980b9;
+        --button-hover: #3498db;
+        --box-shadow: rgba(0, 0, 0, 0.3);
+        --summary-bg: #383838;
+        --final-balance: #2ecc71;
+        --total-interest: #3498db;
+        --toggle-bg: #444444;
+        --toggle-border: #666666;
+        --toggle-active: #2980b9;
+    }
+}
+
+html[data-theme="light"] {
+    --bg-color: #f5f7fa;
+    --text-color: #333;
+    --header-color: #2c3e50;
+    --subtext-color: #7f8c8d;
+    --card-bg: #fff;
+    --input-border: #ddd;
+    --button-bg: #3498db;
+    --button-hover: #2980b9;
+    --box-shadow: rgba(0, 0, 0, 0.1);
+    --summary-bg: #f8f9fa;
+    --final-balance: #27ae60;
+    --total-interest: #3498db;
+    --toggle-bg: #dddddd;
+    --toggle-border: #bbbbbb;
+    --toggle-active: #3498db;
+}
+
+html[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --header-color: #e0e0e0;
+    --subtext-color: #b0b0b0;
+    --card-bg: #2d2d2d;
+    --input-border: #444;
+    --button-bg: #2980b9;
+    --button-hover: #3498db;
+    --box-shadow: rgba(0, 0, 0, 0.3);
+    --summary-bg: #383838;
+    --final-balance: #2ecc71;
+    --total-interest: #3498db;
+    --toggle-bg: #444444;
+    --toggle-border: #666666;
+    --toggle-active: #2980b9;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,8 +81,8 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f7fa;
-    color: #333;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     line-height: 1.6;
 }
 
@@ -23,13 +97,91 @@ header {
     margin-bottom: 3rem;
 }
 
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.theme-toggle-container {
+    margin-left: 20px;
+}
+
+.theme-toggle {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.theme-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-track {
+    position: relative;
+    display: block;
+    width: 60px;
+    height: 30px;
+    background-color: var(--toggle-bg);
+    border-radius: 30px;
+    border: 1px solid var(--toggle-border);
+    transition: all 0.3s ease;
+}
+
+.toggle-track:before {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+input:checked + .toggle-track {
+    background-color: var(--toggle-active);
+}
+
+input:checked + .toggle-track:before {
+    transform: translateX(30px);
+}
+
+.toggle-icon {
+    position: absolute;
+    top: 5px;
+    font-size: 14px;
+    transition: opacity 0.3s ease;
+}
+
+.toggle-icon-light {
+    left: 8px;
+    opacity: 1;
+}
+
+.toggle-icon-dark {
+    right: 8px;
+    opacity: 0;
+}
+
+input:checked + .toggle-track .toggle-icon-light {
+    opacity: 0;
+}
+
+input:checked + .toggle-track .toggle-icon-dark {
+    opacity: 1;
+}
+
 header h1 {
-    color: #2c3e50;
+    color: var(--header-color);
     margin-bottom: 0.5rem;
 }
 
 header p {
-    color: #7f8c8d;
+    color: var(--subtext-color);
 }
 
 /* Calculator layout */
@@ -37,9 +189,9 @@ header p {
     display: flex;
     flex-wrap: wrap;
     gap: 3rem;
-    background-color: #fff;
+    background-color: var(--card-bg);
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px var(--box-shadow);
     padding: 2.5rem;
 }
 
@@ -65,21 +217,23 @@ label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--header-color);
 }
 
 input, select {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--input-border);
     border-radius: 5px;
     font-size: 1rem;
     transition: border-color 0.3s;
+    background-color: var(--card-bg);
+    color: var(--text-color);
 }
 
 input:focus, select:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: var(--button-bg);
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
@@ -97,7 +251,7 @@ input:focus, select:focus {
 }
 
 button {
-    background-color: #3498db;
+    background-color: var(--button-bg);
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -110,16 +264,16 @@ button {
 }
 
 button:hover {
-    background-color: #2980b9;
+    background-color: var(--button-hover);
 }
 
 /* Chart styles */
 .chart-container {
     height: 450px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 10px var(--box-shadow);
     padding: 1rem;
-    background-color: #fff;
+    background-color: var(--card-bg);
 }
 
 /* Summary section */
@@ -133,37 +287,37 @@ button:hover {
     flex: 1;
     min-width: 120px;
     padding: 1rem;
-    background-color: #f8f9fa;
+    background-color: var(--summary-bg);
     border-radius: 5px;
     text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 10px var(--box-shadow);
 }
 
 .summary-box h3 {
     font-size: 0.9rem;
-    color: #7f8c8d;
+    color: var(--subtext-color);
     margin-bottom: 0.5rem;
 }
 
 .summary-box p {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--header-color);
 }
 
 #final-balance {
-    color: #27ae60;
+    color: var(--final-balance);
 }
 
 #total-interest {
-    color: #3498db;
+    color: var(--total-interest);
 }
 
 .input-note {
     display: block;
     margin-top: 0.3rem;
     font-size: 0.8rem;
-    color: #7f8c8d;
+    color: var(--subtext-color);
     font-style: italic;
 }
 
@@ -183,5 +337,14 @@ button:hover {
     
     .summary-box {
         width: 100%;
+    }
+    
+    .header-content {
+        flex-direction: column;
+    }
+    
+    .theme-toggle-container {
+        margin-left: 0;
+        margin-top: 1rem;
     }
 } 
