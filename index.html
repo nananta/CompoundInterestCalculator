@@ -79,6 +79,15 @@
                             <option value="0">None</option>
                         </select>
                     </div>
+
+                    <div class="form-group toggle-form-group">
+                        <label for="exclude-weekends" class="toggle-label">Exclude Weekends</label>
+                        <label class="switch" for="exclude-weekends">
+                            <input type="checkbox" id="exclude-weekends">
+                            <span class="slider"></span>
+                        </label>
+                        <small class="input-note">Only weekdays accrue interest (~260 days/year). Applies to daily compounding.</small>
+                    </div>
                     
                     <button type="submit" id="calculate-btn">Calculate</button>
                 </form>

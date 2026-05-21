@@ -163,11 +163,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get input values
         const initialInvestment = parseFloat(document.getElementById('initial-investment').value);
         const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100;
-        const compoundFrequency = parseInt(document.getElementById('compound-frequency').value);
+        let compoundFrequency = parseInt(document.getElementById('compound-frequency').value);
         const timePeriod = parseInt(document.getElementById('time-period').value);
         const timeUnit = document.getElementById('time-unit').value;
         const additionalContribution = parseFloat(document.getElementById('additional-contribution').value);
         const contributionFrequency = parseInt(document.getElementById('contribution-frequency').value);
+        const excludeWeekends = document.getElementById('exclude-weekends').checked;
+
+        // When excluding weekends with daily compounding, only weekdays compound
+        // (~260 weekdays per year = 52 weeks * 5 days).
+        if (excludeWeekends && compoundFrequency === 365) {
+            compoundFrequency = 260;
+        }
         
         // Convert time period to years if needed
         let timeInYears = timePeriod;
