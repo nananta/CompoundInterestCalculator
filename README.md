@@ -27,7 +27,7 @@ The chart will display how your investment grows over time, showing the principa
 - HTML5
 - CSS3
 - JavaScript
-- Chart.js for data visualization
+- Chart.js 4.5.1 for data visualization (vendored in `vendor/chart.umd.min.js`, so the app works offline)
 
 ## Getting Started
 
@@ -36,7 +36,7 @@ To run this calculator locally:
 1. Clone or download this repository
 2. Open `index.html` in your web browser
 
-No build process or dependencies installation is required.
+No build process, package install, or network access is required. Chart.js ships with the app.
 
 ## License
 
